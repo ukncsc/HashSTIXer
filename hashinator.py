@@ -118,6 +118,7 @@ def _doSTIX(hashes):
     _custom_namespace(SETTINGS['stix']['ns'], SETTINGS['stix']['ns_prefix'])
     stix_package = STIXPackage()
     stix_package.stix_header = STIXHeader()
+    stix_package.stix_header.title = SETTINGS['stix']['ind_title']
     stix_package.stix_header.handling = _marking()
     try:
         indicator = Indicator()
