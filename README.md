@@ -35,6 +35,7 @@ Before using the script you will need setup the config file with your own settin
   * The `ttp` key defines if you want TTP objects to be built as part of the package.
   * The `stix` key defines your namespace and prefix.
   * The `ingest` key defines settings related to API ingestion.
+  * The `buffer-size` key defines how much of each file is read at once.
 
 
 ## Usage
