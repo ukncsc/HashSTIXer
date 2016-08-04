@@ -151,8 +151,9 @@ def _doSTIX(hashes):
             file_object.add_hash(Hash(hash['sha1']))
             file_object.add_hash(Hash(hash['sha256']))
             file_object.add_hash(Hash(hash['ssdeep']))
-            file_object.hashes[0].simple_hash_value.condition = "Equals"
-            file_object.hashes[0].type_.condition = "Equals"
+            for hashobj in file_object.hashes:
+                hashobj.simple_hash_value.condition = "Equals"
+                hashobj.type_.condition = "Equals"
             file_obs = Observable(file_object)
             file_obs.title = "File: " + file_name
             indicator.add_observable(file_obs)
