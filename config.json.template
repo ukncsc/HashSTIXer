@@ -17,6 +17,7 @@
       "user": "username"
     }
   ],
+  "split_level": 2000,
   "stix": {
     "controlled_structure": "../../../../descendant-or-self::node() | ../../../../descendant-or-self::node()/@*",
     "ind_desc": "These files are most likely malicious",

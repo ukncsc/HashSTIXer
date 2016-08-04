@@ -2,6 +2,7 @@ import hashlib
 import os
 import sys
 from config import setting
+from itertools import izip_longest
 
 import pydeep
 import requests
@@ -144,33 +145,31 @@ def _doSTIX(hashes):
             pass
 
         for hash in hashes:
-            file_name = hash['filename']
-            file_object = File()
-            file_object.file_name = file_name
-            file_object.file_extension = "." + file_name.split('.')[-1]
-            file_object.add_hash(Hash(hash['md5']))
-            file_object.add_hash(Hash(hash['sha1']))
-            file_object.add_hash(Hash(hash['sha256']))
-            file_object.add_hash(Hash(hash['ssdeep']))
-            for hashobj in file_object.hashes:
-                hashobj.simple_hash_value.condition = "Equals"
-                hashobj.type_.condition = "Equals"
-            file_obs = Observable(file_object)
-            file_obs.title = "File: " + file_name
-            indicator.add_observable(file_obs)
+            try:
+                file_name = hash['filename']
+                file_object = File()
+                file_object.file_name = file_name
+                file_object.file_extension = "." + file_name.split('.')[-1]
+                file_object.add_hash(Hash(hash['md5']))
+                file_object.add_hash(Hash(hash['sha1']))
+                file_object.add_hash(Hash(hash['sha256']))
+                file_object.add_hash(Hash(hash['ssdeep']))
+                for hashobj in file_object.hashes:
+                    hashobj.simple_hash_value.condition = "Equals"
+                    hashobj.type_.condition = "Equals"
+                file_obs = Observable(file_object)
+                file_obs.title = "File: " + file_name
+                indicator.add_observable(file_obs)
+            except TypeError:
+                pass
         stix_package.add_indicator(indicator)
         return stix_package
     except KeyError:
         pass
 
 
-def _main():
-    if not len(sys.argv) > 1:
-        print("[-] Please include an argument for the 'target' - a target file"
-              " or directory to hash.")
-        sys.exit()
-    hashList = _targetselection(sys.argv[1])
-    stix = _doSTIX(hashList)
+def _make_stix(var):
+    stix = _doSTIX(var)
     name = stix.id_.split(':', 1)[1] + '.xml'
     if SETTINGS['debug']['debug_mode']:
         outpath = SETTINGS['debug']['stix_out']
@@ -186,6 +185,22 @@ def _main():
         _inbox_package(setting['ingest'][0]['endpoint'] +
                        setting['ingest'][0]['user'], stix.to_xml())
         print("[+] Succesfully ingested " + name)
+    return
+
+
+def _main():
+    if not len(sys.argv) > 1:
+        print("[-] Please include an argument for the 'target' - a target file"
+              " or directory to hash.")
+        sys.exit()
+    hashList = _targetselection(sys.argv[1])
+    split = SETTINGS['split_level']
+    if len(hashList) > split:
+        print("[+] Splitting STIX Packages")
+        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):
+            _make_stix(list(group))
+    else:
+        _make_stix(hashList)
 
 if __name__ == '__main__':
     _main()
