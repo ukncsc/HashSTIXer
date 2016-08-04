@@ -169,7 +169,8 @@ def _main():
         print("[-] Please include an argument for the 'target' - a target file"
               " or directory to hash.")
         sys.exit()
-    stix = _doSTIX(_targetselection(sys.argv[1]))
+    hashList = _targetselection(sys.argv[1])
+    stix = _doSTIX(hashList)
     name = stix.id_.split(':', 1)[1] + '.xml'
     if SETTINGS['debug']['debug_mode']:
         outpath = SETTINGS['debug']['stix_out']
