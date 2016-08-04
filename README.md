@@ -20,6 +20,7 @@ Python script to take a given file/folder and return a STIX package containing h
 - Takes either a single file or directory
 - Adds a given indicated TTP
 - Adds a given suggested COA
+- Can produce multiple STIX packages on big directories
 
 
 ## Status
@@ -36,6 +37,7 @@ Before using the script you will need setup the config file with your own settin
   * The `stix` key defines your namespace and prefix.
   * The `ingest` key defines settings related to API ingestion.
   * The `buffer-size` key defines how much of each file is read at once.
+  * The `split_level` key defines at what number of hashes does the STIX package split.
 
 
 ## Usage

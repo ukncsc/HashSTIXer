@@ -17,12 +17,16 @@
       "user": "username"
     }
   ],
+  "split_level": 2000,
   "stix": {
     "controlled_structure": "../../../../descendant-or-self::node() | ../../../../descendant-or-self::node()/@*",
+    "ind_desc": "These files are most likely malicious",
+    "ind_title": "Potentially malicious files",
     "ns": "http://example.com",
     "ns_prefix": "example",
     "producer": "EXAMPLE",
-    "report_desc": "Some description"
+    "report_desc": "Some description",
+    "statement": "Automated ingest from bulk data aggregation"
   },
   "suggested_coa": "example:coa-0c6e0337-18bc-4f58-a712-5fd743565180"
 }

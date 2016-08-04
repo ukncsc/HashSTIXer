@@ -2,6 +2,7 @@ import hashlib
 import os
 import sys
 from config import setting
+from itertools import izip_longest
 
 import pydeep
 import requests
@@ -59,7 +60,7 @@ def _marking():
     marking_specification.controlled_structure = SETTINGS[
         'stix']['controlled_structure']
     simple = SimpleMarkingStructure()
-    simple.statement = "Automated ingest from bulk data aggregation."
+    simple.statement = SETTINGS['stix']['statement']
     marking_specification.marking_structures.append(simple)
     handling = Marking()
     handling.add_marking(marking_specification)
@@ -103,6 +104,9 @@ def _targetselection(target):
                 print("[+] Generating hash for '" +
                       dirName + "/" + str(file) + "'")
                 hashd.append(hashfile(dirName, file))
+    else:
+        print("[-] Target argument is not a file or a directory.")
+        sys.exit(1)
     if hashd:
         return hashd
     else:
@@ -115,6 +119,7 @@ def _doSTIX(hashes):
     _custom_namespace(SETTINGS['stix']['ns'], SETTINGS['stix']['ns_prefix'])
     stix_package = STIXPackage()
     stix_package.stix_header = STIXHeader()
+    stix_package.stix_header.title = SETTINGS['stix']['ind_title']
     stix_package.stix_header.handling = _marking()
     try:
         indicator = Indicator()
@@ -124,9 +129,9 @@ def _doSTIX(hashes):
         indicator.add_kill_chain_phase(PHASE_DELIVERY)
         indicator.confidence = "Low"
 
-        indicator.title = "Potentially malicious files"
+        indicator.title = SETTINGS['stix']['ind_title']
         indicator.add_indicator_type("File Hash Watchlist")
-        indicator.description = "These files are most likely malicious"
+        indicator.description = SETTINGS['stix']['ind_desc']
 
         try:
             indicator.add_indicated_ttp(
@@ -140,37 +145,37 @@ def _doSTIX(hashes):
             pass
 
         for hash in hashes:
-            file_name = hash['filename']
-            file_object = File()
-            file_object.file_name = file_name
-            file_object.file_extension = "." + file_name.split('.')[-1]
-            file_object.add_hash(Hash(hash['md5']))
-            file_object.add_hash(Hash(hash['sha1']))
-            file_object.add_hash(Hash(hash['sha256']))
-            file_object.add_hash(Hash(hash['ssdeep']))
-            file_object.hashes[0].simple_hash_value.condition = "Equals"
-            file_object.hashes[0].type_.condition = "Equals"
-            file_obs = Observable(file_object)
-            file_obs.title = "File: " + file_name
-            indicator.add_observable(file_obs)
+            try:
+                file_name = hash['filename']
+                file_object = File()
+                file_object.file_name = file_name
+                file_object.file_extension = "." + file_name.split('.')[-1]
+                file_object.add_hash(Hash(hash['md5']))
+                file_object.add_hash(Hash(hash['sha1']))
+                file_object.add_hash(Hash(hash['sha256']))
+                file_object.add_hash(Hash(hash['ssdeep']))
+                for hashobj in file_object.hashes:
+                    hashobj.simple_hash_value.condition = "Equals"
+                    hashobj.type_.condition = "Equals"
+                file_obs = Observable(file_object)
+                file_obs.title = "File: " + file_name
+                indicator.add_observable(file_obs)
+            except TypeError:
+                pass
         stix_package.add_indicator(indicator)
         return stix_package
     except KeyError:
         pass
 
 
-def main():
-    if not len(sys.argv) > 1:
-        print("[-] Please include an argument for the 'target' - a target file"
-              " or directory to hash.")
-        sys.exit()
-    stix = _doSTIX(_targetselection(sys.argv[1]))
+def _make_stix(var):
+    stix = _doSTIX(var)
     name = stix.id_.split(':', 1)[1] + '.xml'
     if SETTINGS['debug']['debug_mode']:
         outpath = SETTINGS['debug']['stix_out']
         if not os.path.isdir(outpath):
             print("[-] " + outpath + " is not a valid directory. Please change"
-                  "the'stix_out' setting in config.json before continuing.")
+                  "the 'stix_out' setting in config.json before continuing.")
             sys.exit(0)
         outFile = open(outpath + name, 'w')
         outFile.write(stix.to_xml())
@@ -180,6 +185,22 @@ def main():
         _inbox_package(setting['ingest'][0]['endpoint'] +
                        setting['ingest'][0]['user'], stix.to_xml())
         print("[+] Succesfully ingested " + name)
+    return
+
+
+def _main():
+    if not len(sys.argv) > 1:
+        print("[-] Please include an argument for the 'target' - a target file"
+              " or directory to hash.")
+        sys.exit()
+    hashList = _targetselection(sys.argv[1])
+    split = SETTINGS['split_level']
+    if len(hashList) > split:
+        print("[+] Splitting STIX Packages")
+        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):
+            _make_stix(list(group))
+    else:
+        _make_stix(hashList)
 
 if __name__ == '__main__':
-    main()
+    _main()
