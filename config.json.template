@@ -9,7 +9,7 @@
     "endpoint": "http://edge.example.com/adapter/certuk_mod/import/",
     "user": "username"
   }, {
-    "active": true,
+    "active": false,
     "endpoint": "http://edge.example.com/adapter/certuk_mod/import/",
     "user": "username"
   }],
