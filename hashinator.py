@@ -4,6 +4,7 @@ import sys
 from config import setting
 
 import pydeep
+import requests
 from cybox.common import Hash
 from cybox.core import Observable
 from cybox.objects.file_object import File
