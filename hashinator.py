@@ -103,6 +103,9 @@ def _targetselection(target):
                 print("[+] Generating hash for '" +
                       dirName + "/" + str(file) + "'")
                 hashd.append(hashfile(dirName, file))
+    else:
+        print("[-] Target argument is not a file or a directory.")
+        sys.exit(1)
     if hashd:
         return hashd
     else:
