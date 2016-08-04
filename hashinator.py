@@ -59,7 +59,7 @@ def _marking():
     marking_specification.controlled_structure = SETTINGS[
         'stix']['controlled_structure']
     simple = SimpleMarkingStructure()
-    simple.statement = "Automated ingest from bulk data aggregation."
+    simple.statement = SETTINGS['stix']['statement']
     marking_specification.marking_structures.append(simple)
     handling = Marking()
     handling.add_marking(marking_specification)
