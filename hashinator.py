@@ -124,9 +124,9 @@ def _doSTIX(hashes):
         indicator.add_kill_chain_phase(PHASE_DELIVERY)
         indicator.confidence = "Low"
 
-        indicator.title = "Potentially malicious files"
+        indicator.title = SETTINGS['stix']['ind_title']
         indicator.add_indicator_type("File Hash Watchlist")
-        indicator.description = "These files are most likely malicious"
+        indicator.description = SETTINGS['stix']['ind_desc']
 
         try:
             indicator.add_indicated_ttp(

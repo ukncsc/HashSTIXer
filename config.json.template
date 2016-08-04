@@ -19,6 +19,8 @@
   ],
   "stix": {
     "controlled_structure": "../../../../descendant-or-self::node() | ../../../../descendant-or-self::node()/@*",
+    "ind_desc": "These files are most likely malicious",
+    "ind_title": "Potentially malicious files",
     "ns": "http://example.com",
     "ns_prefix": "example",
     "producer": "EXAMPLE",
