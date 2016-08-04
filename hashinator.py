@@ -98,9 +98,11 @@ def _targetselection(target):
         hashd.append(hashfile("./", target))
     elif os.path.isdir(target):
         print("[+] Directory detected")
-        for file in os.listdir(target):
-            print("[+] I am going to hash '" + str(file) + "'")
-            hashd.append(hashfile(target, file))
+        for dirName, subdirList, fileList in os.walk(target):
+            for file in fileList:
+                print("[+] Generating hash for '" +
+                      dirName + "/" + str(file) + "'")
+                hashd.append(hashfile(dirName, file))
     if hashd:
         return hashd
     else:
