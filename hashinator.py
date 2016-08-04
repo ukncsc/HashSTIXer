@@ -1,8 +1,10 @@
 import hashlib
 import os
 import sys
+from config import setting
 
 BUF_SIZE = 65536
+SETTINGS = setting("config.json")
 
 
 def hashfile(path, file):
