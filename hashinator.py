@@ -17,8 +17,8 @@ from stix.extensions.marking.tlp import TLPMarkingStructure
 from stix.indicator import Indicator
 from stix.ttp import TTP
 
-BUF_SIZE = 65536
 SETTINGS = setting("config.json")
+BUF_SIZE = SETTINGS['buffer_size']
 
 
 def _construct_headers():
