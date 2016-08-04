@@ -159,7 +159,7 @@ def _doSTIX(hashes):
         pass
 
 
-def main():
+def _main():
     if not len(sys.argv) > 1:
         print("[-] Please include an argument for the 'target' - a target file"
               " or directory to hash.")
@@ -182,4 +182,4 @@ def main():
         print("[+] Succesfully ingested " + name)
 
 if __name__ == '__main__':
-    main()
+    _main()
