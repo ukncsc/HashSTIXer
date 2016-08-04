@@ -7,15 +7,34 @@ import pydeep
 from cybox.common import Hash
 from cybox.core import Observable
 from cybox.objects.file_object import File
+from stix.coa import CourseOfAction
 from stix.common.kill_chains.lmco import PHASE_DELIVERY
 from stix.core import STIXHeader, STIXPackage
 from stix.data_marking import Marking, MarkingSpecification
 from stix.extensions.marking.simple_marking import SimpleMarkingStructure
 from stix.extensions.marking.tlp import TLPMarkingStructure
 from stix.indicator import Indicator
+from stix.ttp import TTP
 
 BUF_SIZE = 65536
 SETTINGS = setting("config.json")
+
+
+def _construct_headers():
+    headers = {
+        'Content-Type': 'application/xml',
+        'Accept': 'application/json'
+    }
+    return headers
+
+
+def _inbox_package(endpoint_url, stix_package):
+    data = stix_package
+    headers = _construct_headers()
+    response = requests.post(endpoint_url, data=data, headers=headers)
+
+    print("HTTP status: %d %s") % (response.status_code, response.reason)
+    return
 
 
 def _custom_namespace(url, alias):
@@ -106,6 +125,17 @@ def _doSTIX(hashes):
         indicator.add_indicator_type("File Hash Watchlist")
         indicator.description = "These files are most likely malicious"
 
+        try:
+            indicator.add_indicated_ttp(
+                TTP(idref=SETTINGS['indicated_ttp'],
+                    timestamp=indicator.timestamp))
+            indicator.suggested_coas.append(
+                CourseOfAction(
+                    idref=SETTINGS['suggested_coa'],
+                    timestamp=indicator.timestamp))
+        except KeyError:
+            pass
+
         for hash in hashes:
             file_name = hash['filename']
             file_object = File()
@@ -127,13 +157,22 @@ def _doSTIX(hashes):
 
 
 def main():
-    print(_targetselection(sys.argv[1]))
-    outpath = SETTINGS['debug']['stix_out']
     stix = _doSTIX(_targetselection(sys.argv[1]))
-    outFile = open(outpath + stix.id_.split(':', 1)[1] + '.xml', 'w')
-    outFile.write(stix.to_xml())
-    outFile.close()
-
+    name = stix.id_.split(':', 1)[1] + '.xml'
+    if SETTINGS['debug']['debug_mode']:
+        outpath = SETTINGS['debug']['stix_out']
+        if not os.path.isdir(outpath):
+            print("[-] " + outpath + " is not a valid directory. Please change"
+                  "the'stix_out' setting in config.json before continuing.")
+            sys.exit(0)
+        outFile = open(outpath + name, 'w')
+        outFile.write(stix.to_xml())
+        outFile.close()
+        print("[+] Succesfully created " + name)
+    else:
+        _inbox_package(setting['ingest'][0]['endpoint'] +
+                       setting['ingest'][0]['user'], stix.to_xml())
+        print("[+] Succesfully ingested " + name)
 
 if __name__ == '__main__':
     main()
