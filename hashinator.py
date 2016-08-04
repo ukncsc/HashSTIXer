@@ -158,6 +158,10 @@ def _doSTIX(hashes):
 
 
 def main():
+    if not len(sys.argv) > 1:
+        print("[-] Please include an argument for the 'target' - a target file"
+              " or directory to hash.")
+        sys.exit()
     stix = _doSTIX(_targetselection(sys.argv[1]))
     name = stix.id_.split(':', 1)[1] + '.xml'
     if SETTINGS['debug']['debug_mode']:
