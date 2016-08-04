@@ -153,7 +153,7 @@ def _doSTIX(hashes):
                 file_object.add_hash(Hash(hash['md5']))
                 file_object.add_hash(Hash(hash['sha1']))
                 file_object.add_hash(Hash(hash['sha256']))
-                file_object.add_hash(Hash(hash['ssdeep']))
+                file_object.add_hash(Hash(hash['ssdeep'], Hash.TYPE_SSDEEP))
                 for hashobj in file_object.hashes:
                     hashobj.simple_hash_value.condition = "Equals"
                     hashobj.type_.condition = "Equals"
