@@ -1,5 +1,6 @@
 # Project based stuff
 test/
+out/
 *.json
 
 # Byte-compiled / optimized / DLL files
