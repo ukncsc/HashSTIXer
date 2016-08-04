@@ -175,7 +175,7 @@ def _main():
         outpath = SETTINGS['debug']['stix_out']
         if not os.path.isdir(outpath):
             print("[-] " + outpath + " is not a valid directory. Please change"
-                  "the'stix_out' setting in config.json before continuing.")
+                  "the 'stix_out' setting in config.json before continuing.")
             sys.exit(0)
         outFile = open(outpath + name, 'w')
         outFile.write(stix.to_xml())
