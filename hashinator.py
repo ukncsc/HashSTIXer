@@ -6,6 +6,7 @@ from itertools import izip_longest
 
 import pydeep
 import requests
+import magic
 from cybox.common import Hash
 from cybox.core import Observable
 from cybox.objects.file_object import File
@@ -84,12 +85,15 @@ def hashfile(path, file):
             sha256.update(data)
             sha512.update(data)
             hdict = {
+                'fileformat': magic.from_file(fullfile, mime=True),
                 'filename': str(file),
+                'filesize': os.path.getsize(fullfile),
                 'md5': md5.hexdigest(),
                 'sha1': sha1.hexdigest(),
                 'sha256': sha256.hexdigest(),
                 'sha512': sha512.hexdigest(),
-                'ssdeep': pydeep.hash_file(fullfile)}
+                'ssdeep': pydeep.hash_file(fullfile)
+            }
             return hdict
 
 
@@ -153,6 +157,8 @@ def _doSTIX(hashes):
                 file_object = File()
                 file_object.file_name = file_name
                 file_object.file_extension = "." + file_name.split('.')[-1]
+                file_object.size_in_bytes = hash['filesize']
+                file_object.file_format = hash['fileformat']
                 file_object.add_hash(Hash(hash['md5']))
                 file_object.add_hash(Hash(hash['sha1']))
                 file_object.add_hash(Hash(hash['sha256']))

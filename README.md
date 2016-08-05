@@ -16,6 +16,7 @@ Python script to take a given file/folder and return a STIX package containing h
   - MD5
   - SHA1
   - SHA256
+  - SHA512
   - SSDeep
 - Takes either a single file or directory
 - Adds a given indicated TTP
