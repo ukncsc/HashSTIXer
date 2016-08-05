@@ -68,13 +68,13 @@ def _marking():
     return handling
 
 
-def hashfile(path, file):
+def hashfile(path, targetfile):
     '''This function returns a hash from a given file.'''
     md5 = hashlib.md5()
     sha1 = hashlib.sha1()
     sha256 = hashlib.sha256()
     sha512 = hashlib.sha512()
-    fullfile = path + "/" + file
+    fullfile = path + "/" + targetfile
     with open(fullfile, 'rb') as f:
         while True:
             data = f.read(BUF_SIZE)
@@ -86,7 +86,7 @@ def hashfile(path, file):
             sha512.update(data)
             hdict = {
                 'fileformat': magic.from_file(fullfile, mime=True),
-                'filename': str(file),
+                'filename': str(targetfile),
                 'filesize': os.path.getsize(fullfile),
                 'md5': md5.hexdigest(),
                 'sha1': sha1.hexdigest(),
