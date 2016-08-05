@@ -107,10 +107,10 @@ def _targetselection(target):
     elif os.path.isdir(target):
         print("[+] Directory detected")
         for dirName, subdirList, fileList in os.walk(target):
-            for file in fileList:
+            for f in fileList:
                 print("[+] Generating hash for '" +
-                      dirName + "/" + str(file) + "'")
-                hashd.append(hashfile(dirName, file))
+                      dirName + "/" + str(f) + "'")
+                hashd.append(hashfile(dirName, f))
     else:
         print("[-] Target argument is not a file or a directory.")
         sys.exit(1)
