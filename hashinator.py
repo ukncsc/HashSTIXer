@@ -68,13 +68,13 @@ def _marking():
     return handling
 
 
-def hashfile(path, file):
+def hashfile(path, targetfile):
     '''This function returns a hash from a given file.'''
     md5 = hashlib.md5()
     sha1 = hashlib.sha1()
     sha256 = hashlib.sha256()
     sha512 = hashlib.sha512()
-    fullfile = path + "/" + file
+    fullfile = path + "/" + targetfile
     with open(fullfile, 'rb') as f:
         while True:
             data = f.read(BUF_SIZE)
@@ -86,7 +86,7 @@ def hashfile(path, file):
             sha512.update(data)
             hdict = {
                 'fileformat': magic.from_file(fullfile, mime=True),
-                'filename': str(file),
+                'filename': str(targetfile),
                 'filesize': os.path.getsize(fullfile),
                 'md5': md5.hexdigest(),
                 'sha1': sha1.hexdigest(),
@@ -106,11 +106,11 @@ def _targetselection(target):
         hashd.append(hashfile("./", target))
     elif os.path.isdir(target):
         print("[+] Directory detected")
-        for dirName, subdirList, fileList in os.walk(target):
-            for file in fileList:
+        for dirName, subdirList, fileList in os.walk(target):  # pylint:disable=unused-variable
+            for f in fileList:
                 print("[+] Generating hash for '" +
-                      dirName + "/" + str(file) + "'")
-                hashd.append(hashfile(dirName, file))
+                      dirName + "/" + str(f) + "'")
+                hashd.append(hashfile(dirName, f))
     else:
         print("[-] Target argument is not a file or a directory.")
         sys.exit(1)
@@ -151,19 +151,19 @@ def _doSTIX(hashes):
         except KeyError:
             pass
 
-        for hash in hashes:
+        for info in hashes:
             try:
-                file_name = hash['filename']
+                file_name = info['filename']
                 file_object = File()
                 file_object.file_name = file_name
                 file_object.file_extension = "." + file_name.split('.')[-1]
-                file_object.size_in_bytes = hash['filesize']
-                file_object.file_format = hash['fileformat']
-                file_object.add_hash(Hash(hash['md5']))
-                file_object.add_hash(Hash(hash['sha1']))
-                file_object.add_hash(Hash(hash['sha256']))
-                file_object.add_hash(Hash(hash['sha512']))
-                file_object.add_hash(Hash(hash['ssdeep'], Hash.TYPE_SSDEEP))
+                file_object.size_in_bytes = info['filesize']
+                file_object.file_format = info['fileformat']
+                file_object.add_hash(Hash(info['md5']))
+                file_object.add_hash(Hash(info['sha1']))
+                file_object.add_hash(Hash(info['sha256']))
+                file_object.add_hash(Hash(info['sha512']))
+                file_object.add_hash(Hash(info['ssdeep'], Hash.TYPE_SSDEEP))
                 for hashobj in file_object.hashes:
                     hashobj.simple_hash_value.condition = "Equals"
                     hashobj.type_.condition = "Equals"
@@ -207,7 +207,7 @@ def _main():
     split = SETTINGS['split_level']
     if len(hashList) > split:
         print("[+] Splitting STIX Packages")
-        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):
+        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):  # pylint:disable=unused-variable
             _make_stix(list(group))
     else:
         _make_stix(hashList)
