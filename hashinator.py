@@ -151,19 +151,19 @@ def _doSTIX(hashes):
         except KeyError:
             pass
 
-        for hash in hashes:
+        for info in hashes:
             try:
-                file_name = hash['filename']
+                file_name = info['filename']
                 file_object = File()
                 file_object.file_name = file_name
                 file_object.file_extension = "." + file_name.split('.')[-1]
-                file_object.size_in_bytes = hash['filesize']
-                file_object.file_format = hash['fileformat']
-                file_object.add_hash(Hash(hash['md5']))
-                file_object.add_hash(Hash(hash['sha1']))
-                file_object.add_hash(Hash(hash['sha256']))
-                file_object.add_hash(Hash(hash['sha512']))
-                file_object.add_hash(Hash(hash['ssdeep'], Hash.TYPE_SSDEEP))
+                file_object.size_in_bytes = info['filesize']
+                file_object.file_format = info['fileformat']
+                file_object.add_hash(Hash(info['md5']))
+                file_object.add_hash(Hash(info['sha1']))
+                file_object.add_hash(Hash(info['sha256']))
+                file_object.add_hash(Hash(info['sha512']))
+                file_object.add_hash(Hash(info['ssdeep'], Hash.TYPE_SSDEEP))
                 for hashobj in file_object.hashes:
                     hashobj.simple_hash_value.condition = "Equals"
                     hashobj.type_.condition = "Equals"
