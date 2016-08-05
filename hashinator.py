@@ -72,6 +72,7 @@ def hashfile(path, file):
     md5 = hashlib.md5()
     sha1 = hashlib.sha1()
     sha256 = hashlib.sha256()
+    sha512 = hashlib.sha512()
     fullfile = path + "/" + file
     with open(fullfile, 'rb') as f:
         while True:
@@ -81,11 +82,13 @@ def hashfile(path, file):
             md5.update(data)
             sha1.update(data)
             sha256.update(data)
+            sha512.update(data)
             hdict = {
                 'filename': str(file),
                 'md5': md5.hexdigest(),
                 'sha1': sha1.hexdigest(),
                 'sha256': sha256.hexdigest(),
+                'sha512': sha512.hexdigest(),
                 'ssdeep': pydeep.hash_file(fullfile)}
             return hdict
 
@@ -153,6 +156,7 @@ def _doSTIX(hashes):
                 file_object.add_hash(Hash(hash['md5']))
                 file_object.add_hash(Hash(hash['sha1']))
                 file_object.add_hash(Hash(hash['sha256']))
+                file_object.add_hash(Hash(hash['sha512']))
                 file_object.add_hash(Hash(hash['ssdeep'], Hash.TYPE_SSDEEP))
                 for hashobj in file_object.hashes:
                     hashobj.simple_hash_value.condition = "Equals"
