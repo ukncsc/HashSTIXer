@@ -106,7 +106,7 @@ def _targetselection(target):
         hashd.append(hashfile("./", target))
     elif os.path.isdir(target):
         print("[+] Directory detected")
-        for dirName, subdirList, fileList in os.walk(target):
+        for dirName, subdirList, fileList in os.walk(target):  # pylint:disable=unused-variable
             for f in fileList:
                 print("[+] Generating hash for '" +
                       dirName + "/" + str(f) + "'")
@@ -207,7 +207,7 @@ def _main():
     split = SETTINGS['split_level']
     if len(hashList) > split:
         print("[+] Splitting STIX Packages")
-        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):
+        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):  # pylint:disable=unused-variable
             _make_stix(list(group))
     else:
         _make_stix(hashList)
