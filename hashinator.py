@@ -89,7 +89,10 @@ def hashfile(path, file):
                 'sha1': sha1.hexdigest(),
                 'sha256': sha256.hexdigest(),
                 'sha512': sha512.hexdigest(),
-                'ssdeep': pydeep.hash_file(fullfile)}
+                'ssdeep': pydeep.hash_file(fullfile),
+                'filesize':
+                    os.path.getsize(fullfile)
+            }
             return hdict
 
 
@@ -153,6 +156,7 @@ def _doSTIX(hashes):
                 file_object = File()
                 file_object.file_name = file_name
                 file_object.file_extension = "." + file_name.split('.')[-1]
+                file_object.size_in_bytes = hash['filesize']
                 file_object.add_hash(Hash(hash['md5']))
                 file_object.add_hash(Hash(hash['sha1']))
                 file_object.add_hash(Hash(hash['sha256']))
