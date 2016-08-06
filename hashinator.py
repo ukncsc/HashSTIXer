@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 import os
 import sys
@@ -123,10 +124,11 @@ def _targetselection(target):
 def _doSTIX(hashes):
     '''This function creates a STIX packages containing hashes.'''
     print("[+] Creating STIX Package")
+    title = SETTINGS['stix']['ind_title'] + " " + str(datetime.datetime.now())
     _custom_namespace(SETTINGS['stix']['ns'], SETTINGS['stix']['ns_prefix'])
     stix_package = STIXPackage()
     stix_package.stix_header = STIXHeader()
-    stix_package.stix_header.title = SETTINGS['stix']['ind_title']
+    stix_package.stix_header.title = title
     stix_package.stix_header.handling = _marking()
     try:
         indicator = Indicator()
@@ -136,7 +138,7 @@ def _doSTIX(hashes):
         indicator.add_kill_chain_phase(PHASE_DELIVERY)
         indicator.confidence = "Low"
 
-        indicator.title = SETTINGS['stix']['ind_title']
+        indicator.title = title
         indicator.add_indicator_type("File Hash Watchlist")
         indicator.description = SETTINGS['stix']['ind_desc']
 
