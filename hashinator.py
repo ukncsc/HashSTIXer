@@ -4,9 +4,9 @@ import sys
 from config import setting
 from itertools import izip_longest
 
+import magic
 import pydeep
 import requests
-import magic
 from cybox.common import Hash
 from cybox.core import Observable
 from cybox.objects.file_object import File
