@@ -56,7 +56,7 @@ def _marking():
     """Define the TLP marking and the inheritance."""
     marking_specification = MarkingSpecification()
     tlp = TLPMarkingStructure()
-    tlp.color = "GREEN"
+    tlp.color = SETTINGS['stix']['tlp']
     marking_specification.marking_structures.append(tlp)
     marking_specification.controlled_structure = SETTINGS[
         'stix']['controlled_structure']
