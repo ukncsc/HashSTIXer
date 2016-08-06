@@ -7,7 +7,7 @@ Permission is hereby granted, free of charge, to use, copy, modify, merge, distr
 (2) THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN ANY ACTION FOR CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # HashSTIXer
-[![Code Health](https://landscape.io/github/certuk/HashSTIXer/dev/landscape.svg?style=flat)](https://landscape.io/github/certuk/HashSTIXer/dev)
+[![Code Health](https://landscape.io/github/certuk/HashSTIXer/dev/landscape.svg?style=flat)](https://landscape.io/github/certuk/HashSTIXer/master)
 
 Python script to take a given file/folder and return a STIX package containing hash observables from each file.
 
