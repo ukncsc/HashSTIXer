@@ -26,7 +26,7 @@
     "ns_prefix": "example",
     "producer": "EXAMPLE",
     "report_desc": "Some description",
-    "statement": "Automated ingest from bulk data aggregation",
+    "statement": "Automatically generated from scripted process.",
     "tlp": "GREEN"
   },
   "suggested_coa": "example:coa-0c6e0337-18bc-4f58-a712-5fd743565180"
