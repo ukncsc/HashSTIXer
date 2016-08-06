@@ -1,4 +1,4 @@
-<stix:STIX_Package 
+<stix:STIX_Package
 	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	xmlns:coa="http://stix.mitre.org/CourseOfAction-1"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
@@ -13,101 +13,120 @@
 	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
 	xmlns:tlpMarking="http://data-marking.mitre.org/extensions/MarkingStructure#TLP-1"
 	xmlns:ttp="http://stix.mitre.org/TTP-1"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="example:Package-8cb568f6-4744-4aae-b213-0cae2b0cbd82" version="1.1.1" timestamp="2016-08-04T18:23:08.593351+00:00">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="example:Package-92056be8-d08e-4847-a7a6-2792c66d1022" version="1.1.1" timestamp="2016-08-06T07:47:10.167880+00:00">
     <stix:STIX_Header>
+        <stix:Title>Potentially malicious files 2016-08-06 08:47:10.167636</stix:Title>
         <stix:Handling>
             <marking:Marking>
                 <marking:Controlled_Structure>../../../../descendant-or-self::node() | ../../../../descendant-or-self::node()/@*</marking:Controlled_Structure>
                 <marking:Marking_Structure xsi:type='tlpMarking:TLPMarkingStructureType' color="GREEN"/>
                 <marking:Marking_Structure xsi:type='simpleMarking:SimpleMarkingStructureType'>
-                    <simpleMarking:Statement>Automated ingest from bulk data aggregation.</simpleMarking:Statement>
+                    <simpleMarking:Statement>Automated ingest from bulk data aggregation</simpleMarking:Statement>
                 </marking:Marking_Structure>
             </marking:Marking>
         </stix:Handling>
     </stix:STIX_Header>
     <stix:Indicators>
-        <stix:Indicator id="example:indicator-610e6422-aec3-4e96-b0ae-51132d8f8c56" timestamp="2016-08-04T18:23:08.593504+00:00" xsi:type='indicator:IndicatorType'>
-            <indicator:Title>Potentially malicious files</indicator:Title>
+        <stix:Indicator id="example:indicator-78e383ea-7a9f-4418-9afd-c41b5e20003b" timestamp="2016-08-06T07:47:10.168039+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Potentially malicious files 2016-08-06 08:47:10.167636</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">File Hash Watchlist</indicator:Type>
             <indicator:Description>These files are most likely malicious</indicator:Description>
-            <indicator:Observable id="example:Observable-f3374c8a-4437-4435-969c-b0d27c6bd894">
+            <indicator:Observable id="example:Observable-9bbc78a1-7e18-42c8-8c04-16271e58f836">
                 <cybox:Observable_Composition operator="OR">
-                    <cybox:Observable id="example:Observable-bd67fede-9f18-4c95-b2ec-6f5445564052">
+                    <cybox:Observable id="example:Observable-14b6b39f-26ba-4076-bc6d-74656862f517">
                         <cybox:Title>File: sample.csv</cybox:Title>
-                        <cybox:Object id="example:File-f8ab49c7-6c2b-42fb-89c6-e60071d1328f">
+                        <cybox:Object id="example:File-5b58e21d-c711-41c8-9499-8d357cd3dbe3">
                             <cybox:Properties xsi:type="FileObj:FileObjectType">
                                 <FileObj:File_Name>sample.csv</FileObj:File_Name>
                                 <FileObj:File_Extension>.csv</FileObj:File_Extension>
+                                <FileObj:Size_In_Bytes>23</FileObj:Size_In_Bytes>
+                                <FileObj:File_Format>text/plain</FileObj:File_Format>
                                 <FileObj:Hashes>
                                     <cyboxCommon:Hash>
                                         <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
                                         <cyboxCommon:Simple_Hash_Value condition="Equals">3418ec5a1d3f579d91139cce280ae6a9</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>9cba544ae91ecfe71b8fa0b80f3ded0110f4e0b2</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">9cba544ae91ecfe71b8fa0b80f3ded0110f4e0b2</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>83d72006f1bcd0e576a376886eb35239866527d650b49c22ffe57786a13810f8</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">83d72006f1bcd0e576a376886eb35239866527d650b49c22ffe57786a13810f8</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type>Other</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>3:nWHLAqn:mAM</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA512</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">15a287b1ea58ac43450c0b37ee93da6d2fe03413139bc73c579e77cc082bf5b0e4815f72eb22b00419b5f5431dff5080e629688239e44cfd1c7bf5aa81cce48c</cyboxCommon:Simple_Hash_Value>
+                                    </cyboxCommon:Hash>
+                                    <cyboxCommon:Hash>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SSDEEP</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">3:nWHLAqn:mAM</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                 </FileObj:Hashes>
                             </cybox:Properties>
                         </cybox:Object>
                     </cybox:Observable>
-                    <cybox:Observable id="example:Observable-65d8e564-1388-4ef9-9872-ebe8cff58eb1">
+                    <cybox:Observable id="example:Observable-fd25014d-565c-4f1f-8a49-df26fa934787">
                         <cybox:Title>File: sample.txt</cybox:Title>
-                        <cybox:Object id="example:File-4ee77a9f-be51-4161-b8d5-2d33a5bf0d4a">
+                        <cybox:Object id="example:File-ed1132d3-505f-4559-9755-e3aafebb33bc">
                             <cybox:Properties xsi:type="FileObj:FileObjectType">
                                 <FileObj:File_Name>sample.txt</FileObj:File_Name>
                                 <FileObj:File_Extension>.txt</FileObj:File_Extension>
+                                <FileObj:Size_In_Bytes>28</FileObj:Size_In_Bytes>
+                                <FileObj:File_Format>text/plain</FileObj:File_Format>
                                 <FileObj:Hashes>
                                     <cyboxCommon:Hash>
                                         <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
                                         <cyboxCommon:Simple_Hash_Value condition="Equals">ce6c103d90cd779952525b3192929d9f</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>503a2c41210e2548749586b901c8b2a89eb56eaf</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">503a2c41210e2548749586b901c8b2a89eb56eaf</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>32e4a185caa36a613c858055e16503be08aa10b79cde0a57026e3318f1268e21</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">32e4a185caa36a613c858055e16503be08aa10b79cde0a57026e3318f1268e21</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type>Other</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>3:nP1D/OnEWHQv:P1KnP6</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA512</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">74ec14673a7e06096c0aa77de0c2939dbe9adbb4500a28c571948a2dfc806ecabddaa65a7f9fb8b920c90698c89ece8dda22350aa2a52d333be4ee83cb785b69</cyboxCommon:Simple_Hash_Value>
+                                    </cyboxCommon:Hash>
+                                    <cyboxCommon:Hash>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SSDEEP</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">3:nP1D/OnEWHQv:P1KnP6</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                 </FileObj:Hashes>
                             </cybox:Properties>
                         </cybox:Object>
                     </cybox:Observable>
-                    <cybox:Observable id="example:Observable-db8a3f88-ad73-4818-b285-96ad7219428e">
+                    <cybox:Observable id="example:Observable-cd9b2605-53bb-4ae3-abd0-5f5fa34a7574">
                         <cybox:Title>File: sample.xmls</cybox:Title>
-                        <cybox:Object id="example:File-de1d060e-a1c4-4a1b-9c09-7edb54a0f3a5">
+                        <cybox:Object id="example:File-0b94bbc3-dfec-42f0-ba82-69c0c852ba63">
                             <cybox:Properties xsi:type="FileObj:FileObjectType">
                                 <FileObj:File_Name>sample.xmls</FileObj:File_Name>
                                 <FileObj:File_Extension>.xmls</FileObj:File_Extension>
+                                <FileObj:Size_In_Bytes>22</FileObj:Size_In_Bytes>
+                                <FileObj:File_Format>text/plain</FileObj:File_Format>
                                 <FileObj:Hashes>
                                     <cyboxCommon:Hash>
                                         <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
                                         <cyboxCommon:Simple_Hash_Value condition="Equals">13a83641a743debb3ef71d7dd6028ca2</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>8e65a1fdd188189365372b1c57ef591740096533</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">8e65a1fdd188189365372b1c57ef591740096533</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>8e6bf0f8a903b3e808efe528de5ae3ff436aca264c4f5f1561cf98038afc9504</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">8e6bf0f8a903b3e808efe528de5ae3ff436aca264c4f5f1561cf98038afc9504</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                     <cyboxCommon:Hash>
-                                        <cyboxCommon:Type>Other</cyboxCommon:Type>
-                                        <cyboxCommon:Simple_Hash_Value>3:nPKB0/OWmZ:PaWS</cyboxCommon:Simple_Hash_Value>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA512</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">1f271bbf666525b13836bda67ce4dc15104de22bfd6013dd4b690dd9c0afd181980983eea40f4849e368d6c19b1c5ce354285beb3955a9b575cf822390748806</cyboxCommon:Simple_Hash_Value>
+                                    </cyboxCommon:Hash>
+                                    <cyboxCommon:Hash>
+                                        <cyboxCommon:Type condition="Equals" xsi:type="cyboxVocabs:HashNameVocab-1.0">SSDEEP</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">3:nPKB0/OWmZ:PaWS</cyboxCommon:Simple_Hash_Value>
                                     </cyboxCommon:Hash>
                                 </FileObj:Hashes>
                             </cybox:Properties>
@@ -116,17 +135,17 @@
                 </cybox:Observable_Composition>
             </indicator:Observable>
             <indicator:Indicated_TTP>
-                <stixCommon:TTP idref="example:ttp-0c6e0337-18bc-4f58-a712-5fd743565180" timestamp="2016-08-04T18:23:08.593504+00:00" xsi:type='ttp:TTPType'/>
+                <stixCommon:TTP idref="example:ttp-0c6e0337-18bc-4f58-a712-5fd743565180" timestamp="2016-08-06T07:47:10.168039+00:00" xsi:type='ttp:TTPType'/>
             </indicator:Indicated_TTP>
             <indicator:Kill_Chain_Phases>
                 <stixCommon:Kill_Chain_Phase phase_id="stix:TTP-79a0e041-9d5f-49bb-ada4-8322622b162d"/>
             </indicator:Kill_Chain_Phases>
             <indicator:Suggested_COAs>
                 <indicator:Suggested_COA>
-                    <stixCommon:Course_Of_Action idref="example:coa-0c6e0337-18bc-4f58-a712-5fd743565180" timestamp="2016-08-04T18:23:08.593504+00:00" xsi:type='coa:CourseOfActionType'/>
+                    <stixCommon:Course_Of_Action idref="example:coa-0c6e0337-18bc-4f58-a712-5fd743565180" timestamp="2016-08-06T07:47:10.168039+00:00" xsi:type='coa:CourseOfActionType'/>
                 </indicator:Suggested_COA>
             </indicator:Suggested_COAs>
-            <indicator:Confidence timestamp="2016-08-04T18:23:08.593799+00:00">
+            <indicator:Confidence timestamp="2016-08-06T07:47:10.168255+00:00">
                 <stixCommon:Value xsi:type="stixVocabs:HighMediumLowVocab-1.0">Low</stixCommon:Value>
             </indicator:Confidence>
             <indicator:Producer>
@@ -134,8 +153,8 @@
                     <stixCommon:Name>EXAMPLE</stixCommon:Name>
                 </stixCommon:Identity>
                 <stixCommon:Time>
-                    <cyboxCommon:Produced_Time>2016-08-04T18:23:08.593504+00:00</cyboxCommon:Produced_Time>
-                    <cyboxCommon:Received_Time>2016-08-04T18:23:08.593504+00:00</cyboxCommon:Received_Time>
+                    <cyboxCommon:Produced_Time>2016-08-06T07:47:10.168039+00:00</cyboxCommon:Produced_Time>
+                    <cyboxCommon:Received_Time>2016-08-06T07:47:10.168039+00:00</cyboxCommon:Received_Time>
                 </stixCommon:Time>
             </indicator:Producer>
         </stix:Indicator>
