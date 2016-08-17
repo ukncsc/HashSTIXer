@@ -66,9 +66,29 @@ An example output can be found in the [Example](Example-Package-8cb568f6-4744-4a
 
 
 ## Dependencies
-The script requires the following python modules:
+The script requires ssdeep to be installed and the accompanying pydeep python module.
 
-- pydeep
+### Install of ssdeep and pydeep on Ubuntu 14.04
+Run the following script to download ssdeep, compile it and install the pydeep module.
+
+```
+wget http://netix.dl.sourceforge.net/project/ssdeep/ssdeep-2.13/ssdeep-2.13.tar.gz
+tar zxf ssdeep-2.13.tar.gz
+cd ssdeep-2.13/
+sudo ./configure
+sudo make
+sudo make install
+sudo pip install pydeep
+cd ~/tmp_build/
+```
+
+### Install of ssdeep on macOS
+If you have brew installed you can simply:
+
+1. ``` $ brew install ssdeep ```
+
+The script also requires the following python modules:
+
 - requests
 - stix
 
