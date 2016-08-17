@@ -5,20 +5,18 @@
     "stix_out": "./out/"
   },
   "indicated_ttp": "example:ttp-0c6e0337-18bc-4f58-a712-5fd743565180",
-  "ingest": [
-    {
-      "active": true,
-      "endpoint": "http://edge.example.com/adapter/certuk_mod/import/",
-      "user": "username"
-    },
-    {
-      "active": false,
-      "endpoint": "http://edge.example.com/adapter/certuk_mod/import/",
-      "user": "username"
-    }
-  ],
+  "ingest": [{
+    "active": true,
+    "endpoint": "http://edge.example.com/adapter/certuk_mod/import/",
+    "user": "username"
+  }, {
+    "active": false,
+    "endpoint": "http://edge.example.com/adapter/certuk_mod/import/",
+    "user": "username"
+  }],
   "split_level": 2000,
   "stix": {
+    "confidence": "Low",
     "controlled_structure": "../../../../descendant-or-self::node() | ../../../../descendant-or-self::node()/@*",
     "ind_desc": "These files are most likely malicious",
     "ind_title": "Potentially malicious files",

@@ -136,7 +136,7 @@ def _dostix(hashes):
         indicator.set_produced_time(indicator.timestamp)
         indicator.set_received_time(indicator.timestamp)
         indicator.add_kill_chain_phase(PHASE_DELIVERY)
-        indicator.confidence = "Low"
+        indicator.confidence = SETTINGS['stix']['confidence']
 
         indicator.title = title
         indicator.add_indicator_type("File Hash Watchlist")
