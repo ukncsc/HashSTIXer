@@ -194,8 +194,8 @@ def _make_stix(var):
         outFile.close()
         print("[+] Succesfully created " + name)
     else:
-        _inbox_package(setting['ingest'][0]['endpoint'] +
-                       setting['ingest'][0]['user'], stix.to_xml())
+        _inbox_package(SETTINGS['ingest'][0]['endpoint'] +
+                       SETTINGS['ingest'][0]['user'], stix.to_xml())
         print("[+] Succesfully ingested " + name)
     return
 
