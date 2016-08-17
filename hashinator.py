@@ -121,7 +121,7 @@ def _targetselection(target):
         return
 
 
-def _doSTIX(hashes):
+def _dostix(hashes):
     '''This function creates a STIX packages containing hashes.'''
     print("[+] Creating STIX Package")
     title = SETTINGS['stix']['ind_title'] + " " + str(datetime.datetime.now())
@@ -181,7 +181,7 @@ def _doSTIX(hashes):
 
 
 def _make_stix(var):
-    stix = _doSTIX(var)
+    stix = _dostix(var)
     name = stix.id_.split(':', 1)[1] + '.xml'
     if SETTINGS['debug']['debug_mode']:
         outpath = SETTINGS['debug']['stix_out']
@@ -189,9 +189,9 @@ def _make_stix(var):
             print("[-] " + outpath + " is not a valid directory. Please change"
                   "the 'stix_out' setting in config.json before continuing.")
             sys.exit(0)
-        outFile = open(outpath + name, 'w')
-        outFile.write(stix.to_xml())
-        outFile.close()
+        outfile = open(outpath + name, 'w')
+        outfile.write(stix.to_xml())
+        outfile.close()
         print("[+] Succesfully created " + name)
     else:
         _inbox_package(SETTINGS['ingest'][0]['endpoint'] +
@@ -205,14 +205,14 @@ def _main():
         print("[-] Please include an argument for the 'target' - a target file"
               " or directory to hash.")
         sys.exit()
-    hashList = _targetselection(sys.argv[1])
+    hashlist = _targetselection(sys.argv[1])
     split = SETTINGS['split_level']
-    if len(hashList) > split:
+    if len(hashlist) > split:
         print("[+] Splitting STIX Packages")
-        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):  # pylint:disable=unused-variable
+        for i, group in enumerate(izip_longest(*(iter(hashlist),) * split)):  # pylint:disable=unused-variable
             _make_stix(list(group))
     else:
-        _make_stix(hashList)
+        _make_stix(hashlist)
 
 if __name__ == '__main__':
     _main()
