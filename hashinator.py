@@ -33,10 +33,8 @@ def _construct_headers():
 
 
 def _inbox_package(endpoint_url, stix_package):
-    data = stix_package
     headers = _construct_headers()
-    response = requests.post(endpoint_url, data=data, headers=headers)
-
+    response = requests.post(endpoint_url, data=stix_package, headers=headers)
     print("HTTP status: %d %s") % (response.status_code, response.reason)
     return
 
@@ -121,7 +119,7 @@ def _targetselection(target):
         return
 
 
-def _doSTIX(hashes):
+def _dostix(hashes):
     '''This function creates a STIX packages containing hashes.'''
     print("[+] Creating STIX Package")
     title = SETTINGS['stix']['ind_title'] + " " + str(datetime.datetime.now())
@@ -136,7 +134,7 @@ def _doSTIX(hashes):
         indicator.set_produced_time(indicator.timestamp)
         indicator.set_received_time(indicator.timestamp)
         indicator.add_kill_chain_phase(PHASE_DELIVERY)
-        indicator.confidence = SETTINGS['stix']['confidence']
+        indicator.confidence = "Low"
 
         indicator.title = title
         indicator.add_indicator_type("File Hash Watchlist")
@@ -158,9 +156,13 @@ def _doSTIX(hashes):
                 file_name = info['filename']
                 file_object = File()
                 file_object.file_name = file_name
+                file_object.file_name.condition = "Equals"
                 file_object.file_extension = "." + file_name.split('.')[-1]
+                file_object.file_extension.condition = "Equals"
                 file_object.size_in_bytes = info['filesize']
+                file_object.size_in_bytes.condition = "Equals"
                 file_object.file_format = info['fileformat']
+                file_object.file_format.condition = "Equals"
                 file_object.add_hash(Hash(info['md5']))
                 file_object.add_hash(Hash(info['sha1']))
                 file_object.add_hash(Hash(info['sha256']))
@@ -181,7 +183,8 @@ def _doSTIX(hashes):
 
 
 def _make_stix(var):
-    stix = _doSTIX(var)
+    stix = _dostix(var)
+    xml = stix.to_xml()
     name = stix.id_.split(':', 1)[1] + '.xml'
     if SETTINGS['debug']['debug_mode']:
         outpath = SETTINGS['debug']['stix_out']
@@ -189,13 +192,13 @@ def _make_stix(var):
             print("[-] " + outpath + " is not a valid directory. Please change"
                   "the 'stix_out' setting in config.json before continuing.")
             sys.exit(0)
-        outFile = open(outpath + name, 'w')
-        outFile.write(stix.to_xml())
-        outFile.close()
+        outfile = open(outpath + name, 'w')
+        outfile.write(stix.to_xml())
+        outfile.close()
         print("[+] Succesfully created " + name)
     else:
-        _inbox_package(setting['ingest'][0]['endpoint'] +
-                       setting['ingest'][0]['user'], stix.to_xml())
+        _inbox_package(SETTINGS['ingest'][0]['endpoint'] +
+                       SETTINGS['ingest'][0]['user'], xml)
         print("[+] Succesfully ingested " + name)
     return
 
@@ -205,14 +208,14 @@ def _main():
         print("[-] Please include an argument for the 'target' - a target file"
               " or directory to hash.")
         sys.exit()
-    hashList = _targetselection(sys.argv[1])
+    hashlist = _targetselection(sys.argv[1])
     split = SETTINGS['split_level']
-    if len(hashList) > split:
+    if len(hashlist) > split:
         print("[+] Splitting STIX Packages")
-        for i, group in enumerate(izip_longest(*(iter(hashList),) * split)):  # pylint:disable=unused-variable
+        for i, group in enumerate(izip_longest(*(iter(hashlist),) * split)):  # pylint:disable=unused-variable
             _make_stix(list(group))
     else:
-        _make_stix(hashList)
+        _make_stix(hashlist)
 
 if __name__ == '__main__':
     _main()
