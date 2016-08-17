@@ -33,10 +33,8 @@ def _construct_headers():
 
 
 def _inbox_package(endpoint_url, stix_package):
-    data = stix_package
     headers = _construct_headers()
-    response = requests.post(endpoint_url, data=data, headers=headers)
-
+    response = requests.post(endpoint_url, data=stix_package, headers=headers)
     print("HTTP status: %d %s") % (response.status_code, response.reason)
     return
 
@@ -136,7 +134,7 @@ def _dostix(hashes):
         indicator.set_produced_time(indicator.timestamp)
         indicator.set_received_time(indicator.timestamp)
         indicator.add_kill_chain_phase(PHASE_DELIVERY)
-        indicator.confidence = SETTINGS['stix']['confidence']
+        indicator.confidence = "Low"
 
         indicator.title = title
         indicator.add_indicator_type("File Hash Watchlist")
@@ -158,9 +156,13 @@ def _dostix(hashes):
                 file_name = info['filename']
                 file_object = File()
                 file_object.file_name = file_name
+                file_object.file_name.condition = "Equals"
                 file_object.file_extension = "." + file_name.split('.')[-1]
+                file_object.file_extension.condition = "Equals"
                 file_object.size_in_bytes = info['filesize']
+                file_object.size_in_bytes.condition = "Equals"
                 file_object.file_format = info['fileformat']
+                file_object.file_format.condition = "Equals"
                 file_object.add_hash(Hash(info['md5']))
                 file_object.add_hash(Hash(info['sha1']))
                 file_object.add_hash(Hash(info['sha256']))
@@ -182,6 +184,7 @@ def _dostix(hashes):
 
 def _make_stix(var):
     stix = _dostix(var)
+    xml = stix.to_xml()
     name = stix.id_.split(':', 1)[1] + '.xml'
     if SETTINGS['debug']['debug_mode']:
         outpath = SETTINGS['debug']['stix_out']
@@ -195,7 +198,7 @@ def _make_stix(var):
         print("[+] Succesfully created " + name)
     else:
         _inbox_package(SETTINGS['ingest'][0]['endpoint'] +
-                       SETTINGS['ingest'][0]['user'], stix.to_xml())
+                       SETTINGS['ingest'][0]['user'], xml)
         print("[+] Succesfully ingested " + name)
     return
 
